@@ -5,7 +5,7 @@ import { HttpModule } from '@angular/http';
 
 import { D3Service, D3_DIRECTIVES } from './d3';
 
-import { AppComponent } from './app.component';
+import { AppComponent } from './test-d3.component';
 
 import { GraphComponent } from './visuals/graph/graph.component';
 import { SHARED_VISUALS } from './visuals/shared';

@@ -1,6 +1,8 @@
 import APP_CONFIG from '../../app.config';
+import 'jquery';
 const $ = require('jquery');
 let cur_pos = 0;
+import * as d3 from 'd3';
 export class Node implements d3.SimulationNodeDatum {
   // optional - defining optional implementation properties - required for relevant typing assistance
   index?: number;

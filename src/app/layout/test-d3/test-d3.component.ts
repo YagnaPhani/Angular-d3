@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import APP_CONFIG from './app.config';
+//import APP_CONFIG from './app.config';
 import { Node, Link } from './d3';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: 'app-test-d3',
+  templateUrl: './test-d3.component.html',
+  styleUrls: ['./test-d3.component.css']
 })
 
 export class AppComponent {
@@ -15,8 +15,8 @@ export class AppComponent {
   constructor() {}
 
   ngAfterViewInit() {
-    const N = APP_CONFIG.N,
-          getIndex = number => number - 1;
+    // const N = APP_CONFIG.N,
+    //       getIndex = number => number - 1;
 
     let nodesRaw = {"10.0.0.17": {"hw_addr": "ea:de:27:77:7f:d9", "noise": "-95", "group": "251", "link_quality": "33/70", "ip": "10.0.0.17", "signal": "-77", "wifi_type": "Backbone", "support_vaps": "yes", "fq_offset": "none", "bit_rate": "71.8 MBit/s", "mode": "Mesh Point", "tx_power": "15", "encryption": "unknown", "hw_mode": "802.11an", "tx_offset": "none", "type": "nl80211", "phy_name": "phy1", "channel": "161 (5.805 GHz)"}, "10.0.0.30": {"hw_addr": "ea:de:27:77:55:df", "noise": "-95", "group": "257", "link_quality": "40/70", "ip": "10.0.0.30", "signal": "-70", "wifi_type": "Backbone", "support_vaps": "yes", "fq_offset": "none", "bit_rate": "92.6 MBit/s", "mode": "Mesh Point", "tx_power": "15", "encryption": "unknown", "hw_mode": "802.11an", "tx_offset": "none", "type": "nl80211", "phy_name": "phy1", "channel": "161 (5.805 GHz)"}, "10.0.0.13": {"hw_addr": "ea:de:27:77:81:6e", "noise": "-95", "link_quality": "28/70", "ip": "10.0.0.13", "signal": "-82", "wifi_type": "Backbone", "support_vaps": "yes", "fq_offset": "none", "bit_rate": "42.3 MBit/s", "mode": "Mesh Point", "tx_power": "15", "encryption": "unknown", "hw_mode": "802.11an", "tx_offset": "none", "type": "nl80211", "phy_name": "phy1", "channel": "161 (5.805 GHz)"}, "10.0.1.101": {"group": "256", "ip": "10.0.1.101", "wifi_type": "usrp", "tp": "1Mbps", "frequency": "830MHz", "mod": "gmsk"}, "10.0.0.19": {"hw_addr": "ea:de:27:77:56:7e", "noise": "-95", "group": "247", "link_quality": "35/70", "ip": "10.0.0.19", "signal": "-75", "wifi_type": "Backbone", "support_vaps": "yes", "fq_offset": "none", "bit_rate": "29.0 MBit/s", "mode": "Mesh Point", "tx_power": "15", "encryption": "unknown", "hw_mode": "802.11an", "tx_offset": "none", "type": "nl80211", "phy_name": "phy1", "channel": "161 (5.805 GHz)"}, "10.0.0.9": {"hw_addr": "c2:4a:00:40:83:3e", "noise": "-95", "link_quality": "32/70", "ip": "10.0.0.9", "signal": "-78", "wifi_type": "Backbone", "support_vaps": "yes", "fq_offset": "none", "bit_rate": "61.2 MBit/s", "mode": "Mesh Point", "tx_power": "15", "encryption": "unknown", "hw_mode": "802.11an", "tx_offset": "none", "type": "nl80211", "phy_name": "phy1", "channel": "161 (5.805 GHz)"}, "10.0.0.5": {"hw_addr": "ea:de:27:6b:04:cd", "noise": "-95", "group": "238", "link_quality": "33/70", "ip": "10.0.0.5", "signal": "-77", "wifi_type": "Backbone", "support_vaps": "yes", "fq_offset": "none", "bit_rate": "79.2 MBit/s", "mode": "Mesh Point", "tx_power": "19", "encryption": "unknown", "hw_mode": "802.11an", "tx_offset": "none", "type": "nl80211", "phy_name": "phy1", "channel": "161 (5.805 GHz)"}, "10.0.0.25": {"hw_addr": "ea:de:27:77:6a:91", "noise": "-95", "group": "205c", "link_quality": "28/70", "ip": "10.0.0.25", "signal": "-82", "wifi_type": "Backbone", "support_vaps": "yes", "fq_offset": "none", "bit_rate": "39.4 MBit/s", "mode": "Mesh Point", "tx_power": "15", "encryption": "unknown", "hw_mode": "802.11an", "tx_offset": "none", "type": "nl80211", "phy_name": "phy1", "channel": "161 (5.805 GHz)"}, "10.0.0.27": {"hw_addr": "ea:de:27:77:64:31", "noise": "-95", "group": "226", "link_quality": "68/70", "ip": "10.0.0.27", "signal": "-42", "wifi_type": "Backbone", "support_vaps": "yes", "fq_offset": "none", "bit_rate": "18.4 MBit/s", "mode": "Mesh Point", "tx_power": "19", "encryption": "unknown", "hw_mode": "802.11an", "tx_offset": "none", "type": "nl80211", "phy_name": "phy1", "channel": "161 (5.805 GHz)"}, "10.0.0.21": {"hw_addr": "ea:de:27:77:6b:72", "noise": "-95", "group": "208", "link_quality": "32/70", "ip": "10.0.0.21", "signal": "-78", "wifi_type": "Backbone", "support_vaps": "yes", "fq_offset": "none", "bit_rate": "37.6 MBit/s", "mode": "Mesh Point", "tx_power": "15", "encryption": "unknown", "hw_mode": "802.11an", "tx_offset": "none", "type": "nl80211", "phy_name": "phy1", "channel": "161 (5.805 GHz)"}, "10.0.0.3": {"hw_addr": "c2:4a:00:9a:6e:fa", "noise": "-95", "group": "260", "link_quality": "55/70", "ip": "10.0.0.3", "signal": "-55", "wifi_type": "Backbone", "support_vaps": "yes", "fq_offset": "none", "bit_rate": "141.5 MBit/s", "mode": "Mesh Point", "tx_power": "15", "encryption": "unknown", "hw_mode": "802.11an", "tx_offset": "none", "type": "nl80211", "phy_name": "phy1", "channel": "161 (5.805 GHz)"}};
 
