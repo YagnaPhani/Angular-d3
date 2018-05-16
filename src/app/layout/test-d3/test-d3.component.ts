@@ -1,113 +1,61 @@
-import { Component, ElementRef, NgZone, OnDestroy, OnInit } from '@angular/core';
-
-import {
-  D3Service,
-  D3,
-  Axis,
-  BrushBehavior,
-  BrushSelection,
-  D3BrushEvent,
-  ScaleLinear,
-  ScaleOrdinal,
-  Selection,
-  Transition
-} from 'd3-ng2-service';
+import { Component } from '@angular/core';
+import APP_CONFIG from './app.config';
+import { Node, Link } from './d3';
 
 @Component({
-  selector: 'app-test-d3',
-  templateUrl: './test-d3.component.html',
-  styleUrls: ['./test-d3.component.scss']
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
-export class TestD3Component implements OnInit {
 
-  private d3: D3;
-  private parentNativeElement: any;
-  private d3Svg: Selection<SVGSVGElement, any, null, undefined>;
+export class AppComponent {
+  nodes: Node[] = [];
+  links: Link[] = [];
 
-  constructor(element: ElementRef, private ngZone: NgZone, d3Service: D3Service) {
-    this.d3 = d3Service.getD3();
-    this.parentNativeElement = element.nativeElement;
+  constructor() {}
+
+  ngAfterViewInit() {
+    const N = APP_CONFIG.N,
+          getIndex = number => number - 1;
+
+    let nodesRaw = {"10.0.0.17": {"hw_addr": "ea:de:27:77:7f:d9", "noise": "-95", "group": "251", "link_quality": "33/70", "ip": "10.0.0.17", "signal": "-77", "wifi_type": "Backbone", "support_vaps": "yes", "fq_offset": "none", "bit_rate": "71.8 MBit/s", "mode": "Mesh Point", "tx_power": "15", "encryption": "unknown", "hw_mode": "802.11an", "tx_offset": "none", "type": "nl80211", "phy_name": "phy1", "channel": "161 (5.805 GHz)"}, "10.0.0.30": {"hw_addr": "ea:de:27:77:55:df", "noise": "-95", "group": "257", "link_quality": "40/70", "ip": "10.0.0.30", "signal": "-70", "wifi_type": "Backbone", "support_vaps": "yes", "fq_offset": "none", "bit_rate": "92.6 MBit/s", "mode": "Mesh Point", "tx_power": "15", "encryption": "unknown", "hw_mode": "802.11an", "tx_offset": "none", "type": "nl80211", "phy_name": "phy1", "channel": "161 (5.805 GHz)"}, "10.0.0.13": {"hw_addr": "ea:de:27:77:81:6e", "noise": "-95", "link_quality": "28/70", "ip": "10.0.0.13", "signal": "-82", "wifi_type": "Backbone", "support_vaps": "yes", "fq_offset": "none", "bit_rate": "42.3 MBit/s", "mode": "Mesh Point", "tx_power": "15", "encryption": "unknown", "hw_mode": "802.11an", "tx_offset": "none", "type": "nl80211", "phy_name": "phy1", "channel": "161 (5.805 GHz)"}, "10.0.1.101": {"group": "256", "ip": "10.0.1.101", "wifi_type": "usrp", "tp": "1Mbps", "frequency": "830MHz", "mod": "gmsk"}, "10.0.0.19": {"hw_addr": "ea:de:27:77:56:7e", "noise": "-95", "group": "247", "link_quality": "35/70", "ip": "10.0.0.19", "signal": "-75", "wifi_type": "Backbone", "support_vaps": "yes", "fq_offset": "none", "bit_rate": "29.0 MBit/s", "mode": "Mesh Point", "tx_power": "15", "encryption": "unknown", "hw_mode": "802.11an", "tx_offset": "none", "type": "nl80211", "phy_name": "phy1", "channel": "161 (5.805 GHz)"}, "10.0.0.9": {"hw_addr": "c2:4a:00:40:83:3e", "noise": "-95", "link_quality": "32/70", "ip": "10.0.0.9", "signal": "-78", "wifi_type": "Backbone", "support_vaps": "yes", "fq_offset": "none", "bit_rate": "61.2 MBit/s", "mode": "Mesh Point", "tx_power": "15", "encryption": "unknown", "hw_mode": "802.11an", "tx_offset": "none", "type": "nl80211", "phy_name": "phy1", "channel": "161 (5.805 GHz)"}, "10.0.0.5": {"hw_addr": "ea:de:27:6b:04:cd", "noise": "-95", "group": "238", "link_quality": "33/70", "ip": "10.0.0.5", "signal": "-77", "wifi_type": "Backbone", "support_vaps": "yes", "fq_offset": "none", "bit_rate": "79.2 MBit/s", "mode": "Mesh Point", "tx_power": "19", "encryption": "unknown", "hw_mode": "802.11an", "tx_offset": "none", "type": "nl80211", "phy_name": "phy1", "channel": "161 (5.805 GHz)"}, "10.0.0.25": {"hw_addr": "ea:de:27:77:6a:91", "noise": "-95", "group": "205c", "link_quality": "28/70", "ip": "10.0.0.25", "signal": "-82", "wifi_type": "Backbone", "support_vaps": "yes", "fq_offset": "none", "bit_rate": "39.4 MBit/s", "mode": "Mesh Point", "tx_power": "15", "encryption": "unknown", "hw_mode": "802.11an", "tx_offset": "none", "type": "nl80211", "phy_name": "phy1", "channel": "161 (5.805 GHz)"}, "10.0.0.27": {"hw_addr": "ea:de:27:77:64:31", "noise": "-95", "group": "226", "link_quality": "68/70", "ip": "10.0.0.27", "signal": "-42", "wifi_type": "Backbone", "support_vaps": "yes", "fq_offset": "none", "bit_rate": "18.4 MBit/s", "mode": "Mesh Point", "tx_power": "19", "encryption": "unknown", "hw_mode": "802.11an", "tx_offset": "none", "type": "nl80211", "phy_name": "phy1", "channel": "161 (5.805 GHz)"}, "10.0.0.21": {"hw_addr": "ea:de:27:77:6b:72", "noise": "-95", "group": "208", "link_quality": "32/70", "ip": "10.0.0.21", "signal": "-78", "wifi_type": "Backbone", "support_vaps": "yes", "fq_offset": "none", "bit_rate": "37.6 MBit/s", "mode": "Mesh Point", "tx_power": "15", "encryption": "unknown", "hw_mode": "802.11an", "tx_offset": "none", "type": "nl80211", "phy_name": "phy1", "channel": "161 (5.805 GHz)"}, "10.0.0.3": {"hw_addr": "c2:4a:00:9a:6e:fa", "noise": "-95", "group": "260", "link_quality": "55/70", "ip": "10.0.0.3", "signal": "-55", "wifi_type": "Backbone", "support_vaps": "yes", "fq_offset": "none", "bit_rate": "141.5 MBit/s", "mode": "Mesh Point", "tx_power": "15", "encryption": "unknown", "hw_mode": "802.11an", "tx_offset": "none", "type": "nl80211", "phy_name": "phy1", "channel": "161 (5.805 GHz)"}};
+
+    let linksRaw = [{"src": "10.0.0.17", "ina_time": "290", "protocol": 0, "dst": "10.0.0.19", "idle_time": 1000, "throu": "0Mbps"}, {"src": "10.0.0.17", "ina_time": "1010", "protocol": 0, "dst": "10.0.0.5", "idle_time": 1000, "throu": "4.467Mbps"}, {"src": "10.0.0.17", "ina_time": "240", "protocol": 0, "dst": "10.0.0.25", "idle_time": 1000, "throu": "4.183Mbps"}, {"src": "10.0.0.17", "ina_time": "560", "protocol": 0, "dst": "10.0.0.30", "idle_time": 1000, "throu": "13.686Mbps"}, {"src": "10.0.0.17", "ina_time": "410", "protocol": 0, "dst": "10.0.0.21", "idle_time": 1000, "throu": "38.268Mbps"}, {"src": "10.0.0.17", "ina_time": "440", "protocol": 0, "dst": "10.0.0.3", "idle_time": 1000, "throu": "50.847Mbps"}, {"src": "10.0.0.30", "ina_time": "560", "protocol": 0, "dst": "10.0.0.17", "idle_time": 1000, "throu": "13.686Mbps"}, {"src": "10.0.0.30", "ina_time": "1000", "protocol": 0, "dst": "10.0.1.101", "idle_time": 1000, "throu": "0Mbps"}, {"src": "10.0.0.30", "ina_time": "400", "protocol": 0, "dst": "10.0.0.19", "idle_time": 1000, "throu": "0Mbps"}, {"src": "10.0.0.30", "ina_time": "240", "protocol": 0, "dst": "10.0.0.5", "idle_time": 1000, "throu": "29.607Mbps"}, {"src": "10.0.0.30", "ina_time": "90", "protocol": 0, "dst": "10.0.0.25", "idle_time": 1000, "throu": "13.549Mbps"}, {"src": "10.0.0.30", "ina_time": "34630", "protocol": 0, "dst": "10.0.0.27", "idle_time": 1000, "throu": "0Mbps"}, {"src": "10.0.0.30", "ina_time": "270", "protocol": 0, "dst": "10.0.0.21", "idle_time": 1000, "throu": "12.991Mbps"}, {"src": "10.0.0.30", "ina_time": "300", "protocol": 0, "dst": "10.0.0.3", "idle_time": 1000, "throu": "62.438Mbps"}, {"src": "10.0.0.13", "ina_time": "360", "protocol": 0, "dst": "10.0.0.25", "idle_time": 1000, "throu": "43.303Mbps"}, {"src": "10.0.0.13", "ina_time": "150", "protocol": 0, "dst": "10.0.0.9", "idle_time": 1000, "throu": "31.567Mbps"}, {"src": "10.0.1.101", "ina_time": "1000", "protocol": 0, "dst": "10.0.0.30", "idle_time": 1000, "throu": "0Mbps"}, {"src": "10.0.0.19", "ina_time": "290", "protocol": 0, "dst": "10.0.0.17", "idle_time": 1000, "throu": "0Mbps"}, {"src": "10.0.0.19", "ina_time": "570", "protocol": 0, "dst": "10.0.0.5", "idle_time": 1000, "throu": "0Mbps"}, {"src": "10.0.0.19", "ina_time": "3910", "protocol": 0, "dst": "10.0.0.25", "idle_time": 1000, "throu": "0Mbps"}, {"src": "10.0.0.19", "ina_time": "400", "protocol": 0, "dst": "10.0.0.30", "idle_time": 1000, "throu": "0Mbps"}, {"src": "10.0.0.19", "ina_time": "1020", "protocol": 0, "dst": "10.0.0.21", "idle_time": 1000, "throu": "0Mbps"}, {"src": "10.0.0.19", "ina_time": "20", "protocol": 0, "dst": "10.0.0.3", "idle_time": 1000, "throu": "0Mbps"}, {"src": "10.0.0.9", "ina_time": "320", "protocol": 0, "dst": "10.0.0.5", "idle_time": 1000, "throu": "4.467Mbps"}, {"src": "10.0.0.9", "ina_time": "1010", "protocol": 0, "dst": "10.0.0.25", "idle_time": 1000, "throu": "25.561Mbps"}, {"src": "10.0.0.9", "ina_time": "110", "protocol": 0, "dst": "10.0.0.27", "idle_time": 1000, "throu": "11.865Mbps"}, {"src": "10.0.0.9", "ina_time": "150", "protocol": 0, "dst": "10.0.0.13", "idle_time": 1000, "throu": "31.567Mbps"}, {"src": "10.0.0.5", "ina_time": "1010", "protocol": 0, "dst": "10.0.0.17", "idle_time": 1000, "throu": "4.467Mbps"}, {"src": "10.0.0.5", "ina_time": "240", "protocol": 0, "dst": "10.0.0.30", "idle_time": 1000, "throu": "29.607Mbps"}, {"src": "10.0.0.5", "ina_time": "570", "protocol": 0, "dst": "10.0.0.19", "idle_time": 1000, "throu": "0Mbps"}, {"src": "10.0.0.5", "ina_time": "320", "protocol": 0, "dst": "10.0.0.9", "idle_time": 1000, "throu": "4.467Mbps"}, {"src": "10.0.0.5", "ina_time": "530", "protocol": 0, "dst": "10.0.0.25", "idle_time": 1000, "throu": "50.847Mbps"}, {"src": "10.0.0.5", "ina_time": "410", "protocol": 0, "dst": "10.0.0.27", "idle_time": 1000, "throu": "114.687Mbps"}, {"src": "10.0.0.5", "ina_time": "50", "protocol": 0, "dst": "10.0.0.21", "idle_time": 1000, "throu": "13.686Mbps"}, {"src": "10.0.0.5", "ina_time": "1000", "protocol": 0, "dst": "10.0.0.3", "idle_time": 1000, "throu": "50.847Mbps"}, {"src": "10.0.0.25", "ina_time": "240", "protocol": 0, "dst": "10.0.0.17", "idle_time": 1000, "throu": "4.183Mbps"}, {"src": "10.0.0.25", "ina_time": "110", "protocol": 0, "dst": "10.0.0.27", "idle_time": 1000, "throu": "32.546Mbps"}, {"src": "10.0.0.25", "ina_time": "360", "protocol": 0, "dst": "10.0.0.13", "idle_time": 1000, "throu": "43.303Mbps"}, {"src": "10.0.0.25", "ina_time": "3910", "protocol": 0, "dst": "10.0.0.19", "idle_time": 1000, "throu": "0Mbps"}, {"src": "10.0.0.25", "ina_time": "1010", "protocol": 0, "dst": "10.0.0.9", "idle_time": 1000, "throu": "25.561Mbps"}, {"src": "10.0.0.25", "ina_time": "530", "protocol": 0, "dst": "10.0.0.5", "idle_time": 1000, "throu": "50.847Mbps"}, {"src": "10.0.0.25", "ina_time": "90", "protocol": 0, "dst": "10.0.0.30", "idle_time": 1000, "throu": "13.549Mbps"}, {"src": "10.0.0.25", "ina_time": "320", "protocol": 0, "dst": "10.0.0.21", "idle_time": 1000, "throu": "17.733Mbps"}, {"src": "10.0.0.25", "ina_time": "1260", "protocol": 0, "dst": "10.0.0.3", "idle_time": 1000, "throu": "24.865Mbps"}, {"src": "10.0.0.27", "ina_time": "410", "protocol": 0, "dst": "10.0.0.5", "idle_time": 1000, "throu": "114.687Mbps"}, {"src": "10.0.0.27", "ina_time": "110", "protocol": 0, "dst": "10.0.0.25", "idle_time": 1000, "throu": "32.546Mbps"}, {"src": "10.0.0.27", "ina_time": "34630", "protocol": 0, "dst": "10.0.0.30", "idle_time": 1000, "throu": "0Mbps"}, {"src": "10.0.0.27", "ina_time": "110", "protocol": 0, "dst": "10.0.0.9", "idle_time": 1000, "throu": "11.865Mbps"}, {"src": "10.0.0.27", "ina_time": "120", "protocol": 0, "dst": "10.0.0.3", "idle_time": 1000, "throu": "25.982Mbps"}, {"src": "10.0.0.21", "ina_time": "410", "protocol": 0, "dst": "10.0.0.17", "idle_time": 1000, "throu": "38.268Mbps"}, {"src": "10.0.0.21", "ina_time": "1020", "protocol": 0, "dst": "10.0.0.19", "idle_time": 1000, "throu": "0Mbps"}, {"src": "10.0.0.21", "ina_time": "50", "protocol": 0, "dst": "10.0.0.5", "idle_time": 1000, "throu": "13.686Mbps"}, {"src": "10.0.0.21", "ina_time": "320", "protocol": 0, "dst": "10.0.0.25", "idle_time": 1000, "throu": "17.733Mbps"}, {"src": "10.0.0.21", "ina_time": "270", "protocol": 0, "dst": "10.0.0.30", "idle_time": 1000, "throu": "12.991Mbps"}, {"src": "10.0.0.21", "ina_time": "420", "protocol": 0, "dst": "10.0.0.3", "idle_time": 1000, "throu": "13.686Mbps"}, {"src": "10.0.0.3", "ina_time": "440", "protocol": 0, "dst": "10.0.0.17", "idle_time": 1000, "throu": "50.847Mbps"}, {"src": "10.0.0.3", "ina_time": "300", "protocol": 0, "dst": "10.0.0.30", "idle_time": 1000, "throu": "62.438Mbps"}, {"src": "10.0.0.3", "ina_time": "20", "protocol": 0, "dst": "10.0.0.19", "idle_time": 1000, "throu": "0Mbps"}, {"src": "10.0.0.3", "ina_time": "1000", "protocol": 0, "dst": "10.0.0.5", "idle_time": 1000, "throu": "50.847Mbps"}, {"src": "10.0.0.3", "ina_time": "1260", "protocol": 0, "dst": "10.0.0.25", "idle_time": 1000, "throu": "24.865Mbps"}, {"src": "10.0.0.3", "ina_time": "120", "protocol": 0, "dst": "10.0.0.27", "idle_time": 1000, "throu": "25.982Mbps"}, {"src": "10.0.0.3", "ina_time": "420", "protocol": 0, "dst": "10.0.0.21", "idle_time": 1000, "throu": "13.686Mbps"}]
+
+    /** constructing the nodes array */
+
+    // for (let i = 1; i <= N; i++) {
+    //   this.nodes.push(new Node(i));
+    // }
+
+    let node_index = {}
+    let i = 0;
+    for (let key in nodesRaw) {
+      node_index[key] = i;
+      this.nodes.push(new Node(nodesRaw[key]["ip"], nodesRaw[key]['group']));
+      console.log('key', key, 'i', i);
+      i++;
+    }
+
+    // for (let i = 1; i <= N; i++) {
+    //   for (let m = 2; i * m <= N; m++) {
+    //     /** increasing connections toll on connecting nodes */
+    //     this.nodes[getIndex(i)].linkCount++;
+    //     this.nodes[getIndex(i * m)].linkCount++;
+    //
+    //     /** connecting the nodes before starting the simulation */
+    //     this.links.push(new Link(i, i * m));
+    //   }
+    // }
+    console.log(node_index);
+    for (let link of linksRaw) {
+      console.log(link["src"]);
+      console.log(this.nodes);
+      this.nodes[node_index[link["src"]]].linkCount++;
+      this.nodes[node_index[link["dst"]]].linkCount++;
+      console.warn(this.nodes[node_index[link["src"]]], this.nodes[node_index[link["dst"]]])
+      this.links.push(new Link(this.nodes[node_index[link["src"]]], this.nodes[node_index[link["dst"]]]))
+    }
+
   }
-
-  ngOnInit() {
-            let self = this;
-            let d3 = this.d3;
-            let d3ParentElement: any;
-            let svg: any;
-            let name: string;
-            let yVal: number;
-            let colors: any = [];
-            let data: {name: string, yVal: number}[] = [];
-            let padding: number = 25;
-            let width: number = 500;
-            let height: number = 150;
-            let xScale: any;
-            let yScale: any;
-            let xColor: any;
-            let xAxis: any;
-            let yAxis: any;
-
-    if (this.parentNativeElement !== null) {
-      svg = d3.select(this.parentNativeElement)
-          .append('svg')        // create an <svg> element
-          .attr('width', width) // set its dimensions
-          .attr('height', height);
-
-      colors = ['red', 'yellow', 'green', 'blue'];
-
-      data = [
-          {name : 'A', yVal : 1},
-          {name : 'B', yVal : 4},
-          {name : 'C', yVal : 2},
-          {name : 'D', yVal : 3}
-      ];
-
-      xScale = d3.scaleBand()
-          .domain(data.map(function(d){ return d.name; }))
-          .range([0, 200]);
-
-      yScale = d3.scaleLinear()
-          .domain([0,d3.max(data, function(d) {return d.yVal})])
-          .range([100, 0]);
-
-      xAxis = d3.axisBottom(xScale) // d3.js v.4
-          .ticks(5)
-          .scale(xScale);
-
-      yAxis = d3.axisLeft(xScale) // d3.js v.4
-          .scale(yScale)
-          .ticks(7);
-
-        svg.append("g")
-        .attr("class", "axis")
-        .attr("transform", "translate(" + (padding) + "," + padding + ")")
-        .call(yAxis);
-
-	       svg.append('g')            // create a <g> element
-         .attr('class', 'axis')   // specify classes
-	       .attr("transform", "translate(" + padding + "," + (height - padding) + ")")
-         .call(xAxis);            // let the axis do its thing
-
-      var rects = svg.selectAll('rect')
-          .data(data);
-          rects.size();
-
-      var newRects = rects.enter();
-
-      newRects.append('rect')
-          .attr('x', function(d,i) {
-            return xScale(d.name );
-          })
-          .attr('y', function(d) {
-              return yScale(d.yVal);
-            })
-	        .attr("transform","translate(" + (padding -5  + 25) + "," + (padding - 5) + ")")
-          .attr('height', function(d) {
-              return height - yScale(d.yVal) - (2*padding) + 5})
-          .attr('width', 10)
-          .attr('fill', function(d, i) {
-            return colors[i];
-          });
-     }
-   }
 }

@@ -1,15 +1,28 @@
+import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
 
+import { D3Service, D3_DIRECTIVES } from './d3';
 
-import { TestD3Component } from './test-d3.component';
-import { TestRoutingModule } from './test-d3-routing.module';
+import { AppComponent } from './app.component';
+
+import { GraphComponent } from './visuals/graph/graph.component';
+import { SHARED_VISUALS } from './visuals/shared';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    TestRoutingModule,
+  declarations: [
+    AppComponent,
+    GraphComponent,
+    ...SHARED_VISUALS,
+    ...D3_DIRECTIVES
   ],
-  declarations: [TestD3Component]
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpModule
+  ],
+  providers: [D3Service],
+  bootstrap: [AppComponent]
 })
-export class TestD3Module { }
+export class AppModule { }

@@ -1,4 +1,127 @@
-<p>
-  test-d3 works!
-</p>
-<svg width="400" height="400"></svg>
+<graph [nodes]="nodes" [links]="links"></graph>
+
+<div class="main">
+
+  <div class="row first-row">
+    <div class="col-sm-1 col-md-1 first-row-elem common contains-half">
+      <div class="row">
+        <div class="col-sm-6 col-md-6 first-row-elem common" id="221">221</div>
+        <div class="col-sm-6 col-md-6 first-row-elem common" id="222">222</div>
+      </div>
+    </div>
+    <div class="col-sm-1 col-md-1 first-row-elem common contains-half">
+      <div class="row">
+        <div class="col-sm-6 col-md-6 first-row-elem common half" id="223">223</div>
+        <div class="col-sm-6 col-md-6 first-row-elem common half" id="224">224</div>
+      </div>
+    </div>
+    <div class="col-sm-1 col-md-1 first-row-elem common half" id="225">225</div>
+    <div class="col-sm-1 col-md-1 first-row-elem common half" id="226">226</div>
+    <div class="col-sm-1 col-md-1 first-row-elem common contains-half">
+      <div class="row">
+        <div class="col-sm-6 col-md-6 first-row-elem common half no-bottom">Hall way</div>
+        <div class="col-sm-6 col-md-6 first-row-elem common half" id="237">237</div>
+      </div>
+    </div>
+    <div class="col-sm-1 col-md-1 first-row-elem common" id="238">238</div>
+    <div class="col-sm-2 col-md-2 first-row-elem common contains-half">
+      <div class="row">
+        <div class="col-sm-3 col-md-3 first-row-elem common half" id="239">239</div>
+        <div class="col-sm-6 col-md-6 first-row-elem common half" id="240">240</div>
+        <div class="col-sm-3 col-md-3 first-row-elem common" id="241">241</div>
+      </div>
+    </div>
+    <div class="col-sm-1 col-md-1 first-row-elem common" id="242">242</div>
+    <div class="col-sm-1 col-md-1 first-row-elem common contains-half">
+      <div class="row">
+        <div class="col-sm-6 col-md-6 first-row-elem common half" id="243">243</div>
+        <div class="col-sm-6 col-md-6 first-row-elem common half" id="244">244</div>
+      </div>
+    </div>
+    <div class="col-sm-1 col-md-1 first-row-elem common" id="245">245</div>
+    <div class="col-sm-1 col-md-1 first-row-elem common" id="246">246</div>
+  </div>
+  <div class="second-row">
+    <div class="common left-col" id="220">220</div>
+    <div class="common left-col no-top" id="219">219</div>
+    <div class="common left-col no-top" id="218">218</div>
+    <div class="common left-col no-top" id="217">217</div>
+    <div class="common left-col no-top" id="216">216</div>
+  </div>
+  <div class="center row">
+    <div class="col-sm-1 col-md-1 second-row-elemts">
+      <div class="common center-big" id="205">205</div>
+      <div class="common center-small no-bottom no-top" id="205d">205D</div>
+      <div class="common center-big" id="206">206</div>
+    </div>
+    <div class="col-sm-2 col-md-2 second-row-elemts">
+      <div class="common center-small no-bottom" id="205a">205A</div>
+      <div class="common center-small no-bottom" id="205b">205B</div>
+      <div class="common center-small center-sm-big no-bottom" id="205c">205C</div>
+      <div class="common center-small no-bottom" id="206a">206A</div>
+      <div class="common center-small" id="206b">border-right: solid206B</div>
+    </div>
+    <div class="col-sm-1 col-md-1 second-row-elemts">
+      <div class="common center-large no-bottom" id="204">204</div>
+      <div class="common center-large" id="207">207</div>
+    </div>
+    <div class="col-sm-1 col-md-1 second-row-elemts">
+      <div class="common center-exlarge">Restrooms and elevators</div>
+    </div>
+    <div class="col-sm-3 col-md-3 second-row-space">
+      <div class="common center-large no-bottom" id="260">260</div>
+      <div class="common center-large" id="261">261</div>
+    </div>
+    <div class="col-sm-2 col-md-2 border-right">
+      <div class="row second-row-spl-cols second-row-spl-container">
+        <div class="col-sm-12 col-md-12 second-row-third-col-row">
+          <div class="col-sm-6 col-md-6 common center-small no-bottom second-row-third-col-row-col" id="259">259</div>
+          <div class="col-sm-6 col-md-6 common center-small no-bottom second-row-third-col-row-col" id="258">258</div>
+        </div>
+        <div class=" col-sm-12 col-md-12 common center-big no-bottom" id="257">257</div>
+        <div class=" col-sm-12 col-md-12 common center-big" id="256">256</div>
+      </div>
+    </div>
+    <div class="col-sm-1 col-md-1 second-row-space second-row-spl-cols">
+      <div class="row second-row-spl-cols">
+        <div class="common center-big no-bottom" id="247">247</div>
+        <div class="common center-exlarge">249 and 250</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row last-row">
+    <div class="col-sm-1 col-md-1 last-row-first-elem common" id="215">215</div>
+    <div class="col-sm-1 col-md-1 last-row-elem common contains-half">
+      <div class="row">
+        <div class="col-sm-6 col-md-6 last-row-elem common half" id="214">214</div>
+        <div class="col-sm-6 col-md-6 last-row-elem common half" id="213">213</div>
+      </div>
+    </div>
+    <div class="col-sm-1 col-md-1 last-row-elem common contains-half">
+      <div class="row">
+        <div class="col-sm-6 col-md-6 last-row-elem common half" id="212">212</div>
+        <div class="col-sm-6 col-md-6 last-row-elem common half" id="211">211</div>
+      </div>
+    </div>
+    <div class="col-sm-1 col-md-1 last-row-elem common" id="210">210</div>
+    <div class="col-sm-1 col-md-1 last-row-elem common" id="209">209</div>
+
+    <div class="col-sm-2 col-md-2 last-row-elem common contains-half">
+      <div class="row">
+        <div class="col-sm-6 col-md-6 last-row-elem common" id="208">208</div>
+        <div class="col-sm-6 col-md-6 last-row-elem common half no-top">Lounge</div>
+      </div>
+    </div>
+    <div class="col-sm-1 col-md-1 last-row-elem common" id="254">254</div>
+    <div class="col-sm-1 col-md-1 last-row-elem common contains-half">
+      <div class="row">
+        <div class="col-sm-6 col-md-6 last-row-elem common half" id="253">253</div>
+        <div class="col-sm-6 col-md-6 last-row-elem common half" id="252">252</div>
+      </div>
+    </div>
+    <div class="col-sm-1 col-md-1 last-row-elem common" id="251">251</div>
+  </div>
+
+
+</div><!-- main -->
